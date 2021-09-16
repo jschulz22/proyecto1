@@ -13,6 +13,9 @@ if usuario_01  not in usuario and contraseña_01  not in  contraseña:
 ##fin de nombre y contraseña del usuario 
 
 ##Productos vendidos del menos vendido al más vendido 
+
+##Para observar cuantas veces es nombrada la variable en la lista se utiliza el contador
+### Los ciclos for son necesarios para poder entrar dentro de la estructura de la lista 
 ventas=[] 
 contador=0
 for producto in lifestore_products:
@@ -23,8 +26,10 @@ for producto in lifestore_products:
         ventas.append ([contador, producto[0]])
         contador=0
 ventas.sort(reverse=True)
-##50 productos más vendidos del listado 
 
+##50 productos más vendidos del listado 
+##Se busca el nombre del producto en la lista life_store mediante la variable nombre_del_producto
+### Las ventas por unidades se obtienen del valor[0] de la lista ventas 
 contador=0
 print("Los 50 productos mas vendidos de mayor a menor son:")
 print("\n")
@@ -38,13 +43,15 @@ for id in ventas:
 
 ## En la siguiente parte del codigo seleccionamos los productos menos vendidos por categoría de entre los 50 productos menos vendidos
 
+## Se empleo la función sort() para tener la lista ordenada de menor a mayor
 ventas.sort()
 productos_menos_vendidos = ventas[:49]
 print(productos_menos_vendidos)
 
 print("Productos por categoria con menores ventas")
 print("\n")
-
+## Las ventas que se obtuvieron de los productos de acuerdo con sus categorías se obtuvieron comparando el nombre de la categoría
+# deseada con el valor del nombre del producto en la lista lifestore_products
 print(" Procesadores con menores ventas")
 for venta in productos_menos_vendidos:
     procesador= lifestore_products[venta[1]-1][3]
@@ -105,12 +112,13 @@ print("\n")
 ##fin del código para los productos menos vendidos por categoría
 
 ###100 productos con menores busquedas 
-
+##En esta lista se almacenaron los indices de los productos que habían sido buscados por lo menos una vez
 lista_busquedas=[]
 for busqueda in lifestore_searches:
     numero_busquedas = busqueda[1]
     lista_busquedas.append( numero_busquedas )
 
+##Se creo una lista llamada conteo en la que se almacenaron los valores de los productos en función de su número de búsquedas
 conteo=[]
 for producto_buscado in lista_busquedas:
     if [lista_busquedas.count(producto_buscado),producto_buscado] not in conteo:
@@ -119,6 +127,8 @@ conteo.sort(reverse=True)
 ##Fin del código para productos con menores busqueda 
 
 #Productos mas buscados  
+## Para obtener cuales fueron los productos más buscados se utilizo un contador que iniciamos en 0
+## Para localizar el nombre del producto fue necesario navegar la lista lifestore_products
 print("Productos MÁs buscados")
 contador=0
 print("Los 100 productos con más busquedas son:")
@@ -130,6 +140,9 @@ for numero in conteo:
         contador += 1
 
 ##Busquedas de productos
+##Para obtener la lista que nos diera los porductos que habían sido buscados se localizó ese producto en la
+#lista productos_menos_buscados, si el producto no estaba en tal lista, el valor del numero de veces que tal producto aparecía
+# junto con el valor del Id de este producto eran almacenados en esa lista
 productos_menos_buscados=[]
 for producto_buscado in lista_busquedas:
     if [lista_busquedas.count(producto_buscado),producto_buscado] not in productos_menos_buscados:
@@ -139,6 +152,9 @@ productos_menos_buscados.sort()
 print("/"*100)
 print("Productos por categoria con menores busquedas")
 
+##Los productos con menores busquedas se buscaron en la lista de productos_menos_buscados. El nombre del producto se busco en la 
+## lista lifestore_producs, en cada caso fue necesario hacer conincidir el nombre con la categoria del producto que estabamos 
+#buscando 
 print(" Procesadores con menores busquedas")
 for producto_no_buscado in productos_menos_buscados:
     procesador= lifestore_products[producto_no_buscado[1]-1][3]
@@ -201,6 +217,9 @@ print("\n")
 
 print("productos por reseña y por servicio")
 
+## Para obtner los productos que no se vendieron se realizo una comparacion entre los valores almacenados para los Id
+# en las listas lifestore_products y lifestore_sales. Los productos que no podían localizarse en ambas listas se alamacenaron en 
+# una tercera lista que concentró los productos no vendidos 
 print("los productos que no se vendieron son")
 for producto in lifestore_products:
     for venta in lifestore_sales:
@@ -214,14 +233,17 @@ conteo.sort(reverse=True)
 ventas.sort(reverse=True)
 
 ##Código para productos más buscados 
+##En este caso se tuvo que realizar una identación de tres niveles y obtner una lista en la que se pudieran 
+# almacenar los valores que se necesitaban, en este caso, el Id del producto, su nombre y su numero de busquedas 
 
 productos_mas_buscados=[]
 for producto in lifestore_products:
     for producto_buscado in conteo:
         if producto_buscado[1]==producto[0]:
             productos_mas_buscados.append([producto[0], producto[1], producto_buscado[0]])
-b=len(productos_mas_buscados)
 
+##El promedio que se obtuvo de la forma que a continuación se ilustra, fue un valor necesario para posteriormente obtner los 
+# mejores y peores productos en función de su número de búsquedas y ventas
 lista=[]
 for busquedas in productos_mas_buscados:
     b=int(busquedas[2])
@@ -230,7 +252,6 @@ for busquedas in productos_mas_buscados:
         if id[1]==busquedas[0]:
          promedio=(a+b)/2
          lista.append([promedio, busquedas[0], busquedas[1]])
-print(lista)
 
 print("Los 56 mejores productos de acuerdo con el número de venta y numero de búsquedas son:")
 for elemento in productos_mas_buscados:
@@ -243,9 +264,10 @@ print("\n")
 ## Para calcular los mejores 20 productos por "reseña" considerando el análisis realizado para obtnere los productos más vendidos
 ### y los productos con más busquedas, sin eliminar los productos devueltos, tenemos el código siguiente:
 
-
-
 ##20 mejores prodctos 
+## Se empleo la funcion sort() inverse para poder obtner los valores acomodados del más grande al más pequeño 
+#Se considero la lista de productos_mas_buscados para poder obtener una lista que nos diera los productos mejor ranqueados
+
 lista.sort(reverse=True)
 productos_mejores=lista[0:19]
 
@@ -255,6 +277,8 @@ for elemento in productos_mejores:
 print("\n")
 
 ### 20 Peores productos 
+###Se empleo la función sort() para poder obtener los valores ordenados de menor a mayor
+##Se realizo una nueva lista que contenia a los productos ranqueados con el puntaje más bajo de acuerdo con el promedio
 lista.sort()
 productos_peores=lista[0:19]
 print("Peores 20 productos de acuerddo a numero de búsquedas y ventas")
@@ -266,6 +290,8 @@ print("\n")
 
 ##Calculos de ingresos 
 
+##En este caso se empleo la funcion round para obtner el valor redondeado 
+#Fue necesario contar el numero de elementos en la lista para poder obtener el promedio de las ventas
 print("Promedio de Ventas Mensuales")
 ventas_anuales=len(lifestore_sales)
 ventas_promedio_mensuales=(ventas_anuales)/12
@@ -276,6 +302,7 @@ print("\n")
 ##Ingresos mensuales
 print("Ingresos mensuales")
 ingresos_mensuales = []
+##Ciclo for que permite validar los valores encontrados para una lista de datos 
 for i in range(1,13):
     total = 0
     for ventas in lifestore_sales:
